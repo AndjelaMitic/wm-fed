@@ -30,22 +30,61 @@ body .filter-container {
         color: #8b8b8b;
         font-size: 15px;
         pointer-events: none; }
-      body .filter-container .row .holder select {
+      body .filter-container .row .holder .filter {
         background-color: #f8f4ec;
         width: 180px;
         height: 40px;
-        border-radius: 10px;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
         font-size: 15px;
-        padding: 0 15px;
-        border: 1px solid transparent;
-        -webkit-appearance: none;
-        -moz-appearance: none; }
-      body .filter-container .row .holder select:focus {
-        outline: none;
-        -webkit-box-shadow: 0 0 9px 0 #702b68;
-        -moz-box-shadow: 0 0 9px 0 #702b68;
-        box-shadow: 0 0 9px 0 #702b68;
-        border: 1px solid #702b68; }
+        padding: 8px 15px;
+        position: relative; }
+        body .filter-container .row .holder .filter:focus {
+          outline: none;
+          -webkit-box-shadow: 0 0 9px 0 #702b68;
+          -moz-box-shadow: 0 0 9px 0 #702b68;
+          box-shadow: 0 0 9px 0 #702b68; }
+        body .filter-container .row .holder .filter p.preselected {
+          padding: 0;
+          margin: 0;
+          font-size: 15px;
+          font-weight: 400;
+          font-family: "Poppins", sans-serif;
+          color: #8b8b8b;
+          background-color: #f8f4ec;
+          cursor: pointer; }
+        body .filter-container .row .holder .filter .dropdown {
+          background-color: #f8f4ec;
+          width: 180px;
+          position: absolute;
+          top: 42px;
+          right: 0;
+          border-bottom-left-radius: 10px;
+          border-bottom-right-radius: 10px;
+          border: 1px solid #d3d3d3;
+          border-top: 0;
+          overflow: hidden;
+          display: none; }
+          body .filter-container .row .holder .filter .dropdown p {
+            padding: 10px 15px;
+            margin: 0;
+            font-size: 15px;
+            font-weight: 400;
+            font-family: "Poppins", sans-serif;
+            color: #8b8b8b;
+            background-color: #f8f4ec;
+            cursor: pointer;
+            -moz-transition: all ease-in-out 0.5s;
+            -o-transition: all ease-in-out 0.5s;
+            -webkit-transition: all ease-in-out 0.5s;
+            transition: all ease-in-out 0.5s; }
+            body .filter-container .row .holder .filter .dropdown p:hover {
+              color: #ffffff;
+              background-color: #702b68;
+              -moz-transition: all ease-in-out 0.5s;
+              -o-transition: all ease-in-out 0.5s;
+              -webkit-transition: all ease-in-out 0.5s;
+              transition: all ease-in-out 0.5s; }
 body .app-container {
   width: 100%;
   max-width: 1080px;
@@ -100,21 +139,25 @@ body .app-container {
           -ms-flex-align: center !important;
           align-items: center !important;
           -ms-flex-pack: start !important;
-          justify-content: flex-start !important; }
+          justify-content: flex-start !important;
+          margin-right: 30px; }
         body .app-container .row .box-3 .properties .propertiesValue {
           display: -ms-flexbox !important;
           display: flex !important;
           -ms-flex-align: center !important;
           align-items: center !important;
           -ms-flex-pack: end !important;
-          justify-content: flex-end !important; }
-          body .app-container .row .box-3 .properties .propertiesValue p,
-          body .app-container .row .box-3 .properties .propertiesValue ul li {
-            color: #102542;
-            font-size: 16px;
-            line-height: 1.1;
-            font-weight: 400;
-            font-family: "Poppins", sans-serif; }
+          justify-content: flex-end !important;
+          word-break: break-word; }
+          body .app-container .row .box-3 .properties .propertiesValue .valueWrapper {
+            text-align: left; }
+            body .app-container .row .box-3 .properties .propertiesValue .valueWrapper p,
+            body .app-container .row .box-3 .properties .propertiesValue .valueWrapper ul li {
+              color: #102542;
+              font-size: 16px;
+              line-height: 1.1;
+              font-weight: 400;
+              font-family: "Poppins", sans-serif; }
       body .app-container .row .box-3 a.btn {
         display: block;
         width: 100%;
