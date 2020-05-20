@@ -14,83 +14,88 @@
 
 <body>
   <div id="app" class="global-container">
-  <div class="filter-container">
-    <div class="row">
-      <div class="holder">
-        <div class="filter">
-          <p class="preselected">{{selectOption}}</p>
-          <div class="dropdown">
-            <p v-for="option in dropdown">{{option}}</p>
+    <div class="filter-container">
+      <div class="row">
+        <div class="holder">
+          <div class="filter">
+            <p class="preselected">{{selectOption}}</p>
+            <div class="dropdown">
+              <p v-for="option in dropdown">{{option}}</p>
+            </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
-  <div class="app-container">
-    <div class="row">
-      <div v-for="box in boxes" class="box box-3">
-        <h2 id="title">{{box.name}}</h2>
-        <div class="properties tv">
-          <div class="image-wrapper">
-            <img src="http://localhost/wm-fed/assets/img/monitor.png"/>
+    <div class="app-container">
+      <div class="row">
+        <div v-for="box in boxes" class="box box-3">
+          <div class="featured" v-if="box.is_featured == '1'">
+            <p>Preporučujemo</p>
           </div>
-          <div class="propertiesValue">
-            <div class="valueWrapper">
-              <ul>
-                <li v-for="tv in box.included" v-if="tv.product_category === 'tv'">{{tv.long_name}}</li>
-              </ul>
+          <h2 id="title">{{box.name}}</h2>
+          <div class="properties tv">
+            <div class="image-wrapper">
+              <img src="http://localhost/wm-fed/assets/img/monitor.png" />
+            </div>
+            <div class="propertiesValue">
+              <div class="valueWrapper">
+                <ul>
+                  <li v-for="tv in box.included" v-if="tv.product_category === 'tv'">{{tv.long_name}}</li>
+                </ul>
+              </div>
             </div>
           </div>
-        </div>
-        <div class="properties net">
-          <div class="image-wrapper">
-            <img src="http://localhost/wm-fed/assets/img/iphone.png"/>
-          </div>
-          <div class="propertiesValue">
-            <div class="valueWrapper">
-              <ul>
-                <li v-for="net in box.included" v-if="net.product_category === 'net'">{{net.long_name}}</li>
-              </ul>
+          <div class="properties net">
+            <div class="image-wrapper">
+              <img src="http://localhost/wm-fed/assets/img/iphone.png" />
+            </div>
+            <div class="propertiesValue">
+              <div class="valueWrapper">
+                <ul>
+                  <li v-for="net in box.included" v-if="net.product_category === 'net'">{{net.long_name}}</li>
+                </ul>
+              </div>
             </div>
           </div>
+          <div class="properties promotion" v-for="promotion in box.promotions" v-if="promotion.discount_variations == 'Ugovor 24 meseca'">
+            <!-- <img v-bind:src="promotion.promotion_image"/> -->
+              {{promotion.promo_text}}
+          </div>
+          <div class="properties price">
+          </div>
+          <a href="#" class="btn">Naručite</a>
         </div>
-        <div class="properties price">
-
-        </div>
-        <a href="#" class="btn">Naručite</a>
       </div>
     </div>
-  </div>
   </div>
 </body>
 <script>
- new Vue({
-  el: '#app',
-  data () {
-    return {
-      info: null,
-      selectOption:null,
-      dropdown:null,
-      title:null,
-      boxes:null
-    }
-  },
-  mounted () {
-    axios
-      // .get('https://cors.io/?http://www.mocky.io/v2/5e8465c23000008400cf4395')
-      .get('http://localhost/wm-fed/assets/data.json')
-      .then(response => {
-        console.log(response.data);
-        this.selectOption = response.data.contract_length.preselected_contract_length;
-        this.dropdown = response.data.contract_length.contract_length_options;
-        this.boxes = response.data.items;
+  new Vue({
+    el: '#app',
+    data() {
+      return {
+        info: null,
+        selectOption: null,
+        dropdown: null,
+        title: null,
+        boxes: null
       }
-    )
-      .catch(error => {
+    },
+    mounted() {
+      axios
+        // .get('https://cors.io/?http://www.mocky.io/v2/5e8465c23000008400cf4395')
+        .get('http://localhost/wm-fed/assets/data.json')
+        .then(response => {
+          console.log(response.data);
+          this.selectOption = response.data.contract_length.preselected_contract_length;
+          this.dropdown = response.data.contract_length.contract_length_options;
+          this.boxes = response.data.items;
+        })
+        .catch(error => {
 
-      }
-    )
-  }
-})
+        })
+    }
+  })
 </script>
+
 </html>
