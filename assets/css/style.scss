@@ -4,7 +4,7 @@ $color-darkGrey: #8b8b8b;
 $color_beige: #f8f4ec;
 $color_blue: #102542;
 $color_purple: #702b68;
-$ff-poppins: "Poppins", sans-serif;
+$ff: "Calibri", sans-serif;
 @mixin transition() {
   -moz-transition: all ease-in-out 0.5s;
   -o-transition: all ease-in-out 0.5s;
@@ -82,7 +82,7 @@ body {
             margin: 0;
             font-size: 15px;
             font-weight: 400;
-            font-family: $ff-poppins;
+            font-family: $ff;
             color: $color-darkGrey;
             background-color: $color_beige;
             cursor: pointer;
@@ -107,7 +107,7 @@ body {
               margin: 0;
               font-size: 15px;
               font-weight: 400;
-              font-family: $ff-poppins;
+              font-family: $ff;
               color: $color-darkGrey;
               background-color: $color_beige;
               cursor: pointer;
@@ -158,14 +158,15 @@ body {
 
         h2 {
           color: $color_purple;
-          font-family: $ff-poppins;
-          font-size: 48px;
+          font-family: $ff;
+          font-size: 45px;
           font-weight: 700;
           font-style: italic;
           line-height: 1;
           display: block;
           width: 100%;
           max-width: 214px;
+          margin: 20px auto;
         }
 
         .properties {
@@ -202,7 +203,7 @@ body {
                 font-size: 16px;
                 line-height: 1.1;
                 font-weight: 400;
-                font-family: $ff-poppins;
+                font-family: $ff;
               }
             }
           }
