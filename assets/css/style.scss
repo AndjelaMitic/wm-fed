@@ -29,6 +29,9 @@ $ff: "Calibri", sans-serif;
 }
 
 body {
+  width: 100%;
+  margin: 0;
+
   .filter-container {
     width: 100%;
     max-width: 1000px;
@@ -45,6 +48,7 @@ body {
       .holder {
         position: relative;
         pointer-events: all;
+        margin-right: 20px;
 
         &:after {
           content: "\f078";
@@ -67,7 +71,7 @@ body {
           border-top-left-radius: 10px;
           border-top-right-radius: 10px;
           font-size: 15px;
-          padding: 8px 15px;
+          padding: 12px 15px;
           position: relative;
 
           &:focus {
@@ -82,11 +86,17 @@ body {
             margin: 0;
             font-size: 15px;
             font-weight: 400;
+            letter-spacing: -1px;
             font-family: $ff;
             color: $color-darkGrey;
             background-color: $color_beige;
             cursor: pointer;
+          }
 
+          &.showDropdown{
+            .dropdown{
+              display: block;
+            }
           }
 
           .dropdown {
@@ -144,7 +154,7 @@ body {
         max-width: 340px;
         background: $color_beige;
         padding: 20px;
-        margin: 0 15px;
+        margin: 55px 15px 0;
         border-radius: 10px;
         text-align: center;
         @include transition();
@@ -154,6 +164,25 @@ body {
           -moz-box-shadow: 0 0 9px 0 rgba(112,43,104,1);
           box-shadow: 0 0 9px 0 rgba(112,43,104,1);
           @include transition();
+        }
+
+        &.recommended {
+          margin-top: 0;
+        }
+
+        .featured {
+          width: 100%;
+          font-size: 15px;
+          font-weight: 700;
+          font-style: italic;
+          color: #702b68;
+          font-family: "Calibri", sans-serif;
+          border-bottom: 1px solid #d3d3d3;
+          margin-bottom: 30px;
+
+          p {
+            margin: 0 0 15px;
+          }
         }
 
         h2 {
@@ -166,7 +195,7 @@ body {
           display: block;
           width: 100%;
           max-width: 214px;
-          margin: 20px auto;
+          margin: 0 auto 20px;
         }
 
         .properties {
@@ -176,6 +205,33 @@ body {
           padding: 30px 0;
           border-top: 1px solid $color-lightGrey;
 
+          &.promotion {
+            align-items: center;
+            padding: 0 !important;
+            margin: 0 0 20px;
+            border: 0 !important;
+            position: relative;
+
+            &:before {
+              content: "";
+              display: block;
+              position: absolute;
+              background: $color_white;
+              width: 100%;
+              height: 80%;
+              z-index: 1;
+            }
+
+            img {
+              z-index: 2;
+              margin-right: 30px;
+            }
+
+            .promotion-text {
+              z-index: 2;
+            }
+          }
+
           .image-wrapper {
             display: -ms-flexbox !important;
             display: flex !important;
@@ -183,7 +239,6 @@ body {
             align-items: center !important;
             -ms-flex-pack: start !important;
             justify-content: flex-start !important;
-            margin-right: 30px;
           }
 
           .propertiesValue {
@@ -195,8 +250,9 @@ body {
             justify-content: flex-end !important;
             word-break: break-word;
 
-            .valueWrapper{
+            .valueWrapper {
               text-align: left;
+
               p,
               ul li {
                 color: $color_blue;

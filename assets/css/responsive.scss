@@ -1,0 +1,37 @@
+@media(max-width:1100px) {
+  body {
+    .app-container {
+      max-width: 768px;
+      padding: 0 20px;
+      width: 100%;
+
+      .row {
+        margin: 0 -10px;
+        display: block !important;
+
+        .box-3 {
+          width: 100%;
+          margin: 0 auto 40px;
+        }
+      }
+    }
+  }
+}
+@media(max-width:390px) {
+  body {
+    .filter-container {
+      .row {
+        .holder{
+          margin-right: 10px;
+        }
+      }
+    }
+    .app-container{
+      .row{
+         .box-3{
+           max-width: 100%;
+         }
+      }
+    }
+  }
+}
