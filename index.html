@@ -6,10 +6,11 @@
   <title>Wireless Media - FED</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
-  <link type="text/css" href="http://localhost/git/assets/css/style.css?v=1.1" rel="stylesheet" />
-  <link type="text/css" href="http://localhost/git/assets/css/responsive.css?/v=1.1" rel="stylesheet" />
+  <!-- <link type="text/css" href="http://localhost/git/assets/css/style.css?v=1.1" rel="stylesheet" /> -->
+  <link type="text/css" href="/andjela/assets/css/front.css?/v=1.1" rel="stylesheet" />
+  <!-- <link type="text/css" href="http://localhost/git/assets/css/responsive.css?/v=1.1" rel="stylesheet" /> -->
   <script src="https://kit.fontawesome.com/a9a3b687fb.js" crossorigin="anonymous"></script>
-  <script src="http://localhost/wm-fed/assets/vue.js"></script>
+  <script src="/andjela/assets/vue.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
@@ -70,7 +71,7 @@
             <p v-if="box.prices['old_price_recurring'][selectOption] != ''" class="oldPrice">{{box.prices['old_price_recurring'][selectOption]}} rsd/mes</p>
             <p class="regularPrice" v-bind:class="[selectOption == 'Ugovor 24 meseca' ? '24month' : '' ]">{{box.prices['price_recurring'][selectOption]}} rsd/mes</p>
           </div>
-          <div v-if="selectOption == 'Ugovor 24 meseca'">
+          <div v-if="selectOption == 'Ugovor 24 meseca'" class="oldPricePromoText">
             <p>{{box.prices['old_price_promo_text']}}</p>
           </div>
           <a href="#" class="btn">Naručite</a>
@@ -107,7 +108,7 @@
     mounted() {
       axios
         // .get('https://cors.io/?http://www.mocky.io/v2/5e8465c23000008400cf4395')
-        .get('http://localhost/wm-fed/assets/data.json')
+        .get('/andjela/assets/data.json')
         .then(response => {
           this.loading = true;
           console.log(response.data);
