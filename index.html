@@ -123,15 +123,21 @@
             for (var j = 0; j < promocions.length; j++) {
               var value = promocions[j].promo_text.slice(3, promocions[j].promo_text.length - 4);
               promocions[j].promo_text = value;
-              console.log(promocions[j].promo_text);
             }
-          }
-          for (i = 0; i < response.data.items.length; i++) {
+
             var price = response.data.items[i].prices;
             var oldPromoText = price['old_price_promo_text'].slice(3, price['old_price_promo_text'].length - 4);
             price['old_price_promo_text'] = oldPromoText;
 
+            price['old_price_recurring']['Ugovor 24 meseca'] = (Math.round(price['old_price_recurring']['Ugovor 24 meseca']));
+            price['old_price_recurring']['Ugovor 12 meseci'] = (Math.round(price['old_price_recurring']['Ugovor 12 meseci']));
+            price['old_price_recurring']['Bez ugovorne obaveze'] = (Math.round(price['old_price_recurring']['Bez ugovorne obaveze']));
+
+            price['price_recurring']['Ugovor 24 meseca'] = (Math.round(price['price_recurring']['Ugovor 24 meseca']));
+            price['price_recurring']['Ugovor 12 meseci'] = (Math.round(price['price_recurring']['Ugovor 12 meseci']));
+            price['price_recurring']['Bez ugovorne obaveze'] = (Math.round(price['price_recurring']['Bez ugovorne obaveze']));
           }
+
         })
         .catch(error => {
           this.loading = false;
