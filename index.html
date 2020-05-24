@@ -4,7 +4,7 @@
 <head>
   <meta charset="utf-8">
   <title>Wireless Media - FED</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <link type="text/css" href="http://localhost/git/assets/css/style.css?v=1.1" rel="stylesheet" />
   <link type="text/css" href="http://localhost/git/assets/css/responsive.css?/v=1.1" rel="stylesheet" />
@@ -15,22 +15,23 @@
 </head>
 
 <body>
-  <div id="app" class="global-container">
+  <div v-if="loading" id="app" class="global-container">
     <div class="filter-container">
       <div class="row">
         <div class="holder">
           <div @click="showDropdown()" class="filter" v-bind:class="[clicked ? 'showDropdown' : '' ]">
             <p class="preselected">{{selectOption}}</p>
-            <div class="dropdown">
-              <p v-for="option in dropdown" v-bind:id="option" @click="function(){ selectOption = option; getDataForSpecificContract()}">{{option}}</p>
-            </div>
+
+          </div>
+          <div class="dropdown" v-if="clicked == true">
+            <p v-for="option in dropdown" v-bind:id="option" @click="function(){ selectOption = option; clicked = !clicked;}">{{option}}</p>
           </div>
         </div>
       </div>
     </div>
     <div class="app-container">
       <div class="row">
-        <div v-for="box in boxes" v-bind:class="[box.is_featured == '1' ? 'recommended' : '' ]" class="box box-3">
+        <div v-for="box in boxes" v-bind:class="[box.is_featured == '1' ? 'recommended' : '' ]" v-bind:id="box.id" class="box box-3">
           <div class="featured" v-if="box.is_featured == '1'">
             <p>{{recommended}}</p>
           </div>
@@ -65,7 +66,12 @@
               {{promotion.promo_text}}
             </div>
           </div>
-          <div class="properties price">
+          <div class="properties price" v-bind:class="[selectOption == 'Ugovor 24 meseca' ? 'promotions' : '' ]">
+            <p v-if="box.prices['old_price_recurring'][selectOption] != ''" class="oldPrice">{{box.prices['old_price_recurring'][selectOption]}} rsd/mes</p>
+            <p class="regularPrice" v-bind:class="[selectOption == 'Ugovor 24 meseca' ? '24month' : '' ]">{{box.prices['price_recurring'][selectOption]}} rsd/mes</p>
+          </div>
+          <div v-if="selectOption == 'Ugovor 24 meseca'">
+            <p>{{box.prices['old_price_promo_text']}}</p>
           </div>
           <a href="#" class="btn">Naručite</a>
         </div>
@@ -78,6 +84,7 @@
     el: '#app',
     data() {
       return {
+        loading: null,
         allData: null,
         recommended: null,
         selectOption: null,
@@ -89,12 +96,12 @@
         clicked: false
       }
     },
-    computed :{
-      showDropdown(){
+    computed: {
+      showDropdown() {
         this.clicked = !this.clicked;
       },
-      getDataForSpecificContract(option){
-        console.log(this.selectedOption);
+      getDataForSpecificContract() {
+        this.clicked = !this.clicked;
       }
     },
     mounted() {
@@ -102,6 +109,7 @@
         // .get('https://cors.io/?http://www.mocky.io/v2/5e8465c23000008400cf4395')
         .get('http://localhost/wm-fed/assets/data.json')
         .then(response => {
+          this.loading = true;
           console.log(response.data);
           this.allData = this.response;
           this.recommended = response.data.promo_text;
@@ -115,11 +123,18 @@
             for (var j = 0; j < promocions.length; j++) {
               var value = promocions[j].promo_text.slice(3, promocions[j].promo_text.length - 4);
               promocions[j].promo_text = value;
+              console.log(promocions[j].promo_text);
             }
+          }
+          for (i = 0; i < response.data.items.length; i++) {
+            var price = response.data.items[i].prices;
+            var oldPromoText = price['old_price_promo_text'].slice(3, price['old_price_promo_text'].length - 4);
+            price['old_price_promo_text'] = oldPromoText;
+
           }
         })
         .catch(error => {
-
+          this.loading = false;
         })
     }
   })
