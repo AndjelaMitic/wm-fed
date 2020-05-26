@@ -1,16 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
-
 <head>
   <meta charset="utf-8">
   <title>Wireless Media - FED</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no" />
   <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
   <!-- <link type="text/css" href="http://localhost/git/assets/css/style.css?v=1.1" rel="stylesheet" /> -->
-  <link type="text/css" href="/andjela/assets/css/front.css?/v=1.1" rel="stylesheet" />
   <!-- <link type="text/css" href="http://localhost/git/assets/css/responsive.css?/v=1.1" rel="stylesheet" /> -->
+  <link type="text/css" href="http://localhost/git/assets/css/front.css?/v=1.1" rel="stylesheet" />
   <script src="https://kit.fontawesome.com/a9a3b687fb.js" crossorigin="anonymous"></script>
-  <script src="/andjela/assets/vue.js"></script>
+  <script src="http://localhost/git/assets/vue.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/vue/2.5.17/vue.js"></script>
   <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 </head>
@@ -20,31 +19,36 @@
     <div class="filter-container">
       <div class="row">
         <div class="holder">
-          <div @click="showDropdown()" class="filter" v-bind:class="[clicked ? 'showDropdown' : '' ]">
+          <!-- Setovan click event koji poziva toggleDropdown fju -->
+          <div @click="toggleDropdown();" class="filter">
+            <!-- Sledeci elem. sluzi za vizuelni prikaz trenutno odabranog ugovora, prilikom ucitavanja ce biti podesen na preselected vrednost iz jsona -->
             <p class="preselected">{{selectOption}}</p>
-
           </div>
+          <!-- Div dropdown ce se renderovati samo ukoliko je kliknuto na div.filter -->
           <div class="dropdown" v-if="clicked == true">
-            <p v-for="option in dropdown" v-bind:id="option" @click="function(){ selectOption = option; clicked = !clicked;}">{{option}}</p>
+            <!-- Svakoj opciji iz dropdown-a je setovan event listener - click, koji se promeniti selected promenjivu na odabrani ugovor, nakon toga se zatvara dropdown -->
+            <p v-for="option in dropdown" v-bind:id="option" @click="function(){ selectOption = option; toggleDropdown();}">{{option}}</p>
           </div>
         </div>
       </div>
     </div>
     <div class="app-container">
       <div class="row">
+        <!-- Izlistavanje ugovornih obaveza, ona koja je preporucena (po json-u) dobice klasu recommended da bi se razlikovala od ostalh ug obaveza -->
         <div v-for="box in boxes" v-bind:class="[box.is_featured == '1' ? 'recommended' : '' ]" v-bind:id="box.id" class="box box-3">
+          <!-- Ukoliko je ug.obaveza preporucena ispisace se promo tekst -->
           <div class="featured" v-if="box.is_featured == '1'">
             <p>{{recommended}}</p>
           </div>
-          <h2 id="title">{{box.name}}</h2>
+          <h2 id="title">{{box.name}}</h2>   <!-- Naslov ug.obaveze -->
           <div class="properties tv">
             <div class="image-wrapper">
-              <img width="45" height="45" v-bind:src="tvImg" />
+              <img width="45" height="45" v-bind:src="tvImg" />  <!-- Slika za tv sekciju se vuce iz json-a -->
             </div>
             <div class="propertiesValue">
               <div class="valueWrapper">
                 <ul>
-                  <li v-for="tv in box.included" v-if="tv.product_category === 'tv'">{{tv.long_name}}</li>
+                  <li v-for="tv in box.included" v-if="tv.product_category === 'tv'">{{tv.long_name}}</li> <!-- nazivi proizvoda, usluga samo za tv sekciju -->
                 </ul>
               </div>
             </div>
@@ -56,21 +60,25 @@
             <div class="propertiesValue">
               <div class="valueWrapper">
                 <ul>
-                  <li v-for="net in box.included" v-if="net.product_category === 'net'">{{net.long_name}}</li>
+                  <li v-for="net in box.included" v-if="net.product_category === 'net'">{{net.long_name}}</li> <!-- nazivi proizvoda, usluga samo za net sekciju -->
                 </ul>
               </div>
             </div>
           </div>
+          <!-- Sledeci blok se rednderuje samo ako je obaveza koja je odabrana, obaveza na 24 meseca -->
           <div class="properties promotion" v-for="promotion in box.promotions" v-if="selectOption == 'Ugovor 24 meseca'">
-            <img width="60px" v-bind:src="promotion.promotion_image" />
+            <img width="60px" v-bind:src="promotion.promotion_image" /> <!-- Cita se slika iz jsona -->
             <div class="promotion-text">
-              {{promotion.promo_text}}
+              {{promotion.promo_text}} <!-- Promo tekst koji ide uz sliku, koje je prethodno uklonjen p tag -->
             </div>
           </div>
           <div class="properties price" v-bind:class="[selectOption == 'Ugovor 24 meseca' ? 'promotions' : '' ]">
+            <!-- Stara cena ce se renderovati samo ukoliko je za odabranu ug.obavezu definisana stara cena -->
             <p v-if="box.prices['old_price_recurring'][selectOption] != ''" class="oldPrice">{{box.prices['old_price_recurring'][selectOption]}} rsd/mes</p>
+              <!-- Redovna cena ce dobiti klasu ukoliko je odabrana ug.obav. od 24meseca-->
             <p class="regularPrice" v-bind:class="[selectOption == 'Ugovor 24 meseca' ? '24month' : '' ]">{{box.prices['price_recurring'][selectOption]}} rsd/mes</p>
           </div>
+          <!-- Promotivni tekst koji se odnosi na cene ce se renderovati samo ukoliko je odabrana ug.obaveza od 24 meseca -->
           <div v-if="selectOption == 'Ugovor 24 meseca'" class="oldPricePromoText">
             <p>{{box.prices['old_price_promo_text']}}</p>
           </div>
@@ -85,8 +93,8 @@
     el: '#app',
     data() {
       return {
+        //inicijalizacija varijabli i setovanje na odredjene vrednosti
         loading: null,
-        allData: null,
         recommended: null,
         selectOption: null,
         dropdown: null,
@@ -94,46 +102,51 @@
         tvImg: null,
         netImg: null,
         prices: null,
-        clicked: false
-      }
-    },
-    computed: {
-      showDropdown() {
-        this.clicked = !this.clicked;
-      },
-      getDataForSpecificContract() {
-        this.clicked = !this.clicked;
+        clicked: false,
+        toggleDropdown: null
       }
     },
     mounted() {
+      // funkcija za toggle dropdown-a
+      this.toggleDropdown = function(){
+        //Pri inicijalizaciji se varijabla 'clicked' setuje na false, dropdown ce biti zatvoren
+        //nakon klikna na filter, dropdown, poziva se ova funkcija i sada var. 'clicked' ima suprotnu vrednost od trenutne
+        //ova fja se poziva i nakon odabira neke ugovorne obveze, pa ce se na ovaj nacin posle odabira dropdown zatvoriti
+        this.clicked = !this.clicked;
+      };
       axios
         // .get('https://cors.io/?http://www.mocky.io/v2/5e8465c23000008400cf4395')
-        .get('/andjela/assets/data.json')
+        .get('http://localhost/git/assets/data.json')
         .then(response => {
-          this.loading = true;
-          console.log(response.data);
-          this.allData = this.response;
-          this.recommended = response.data.promo_text;
-          this.selectOption = response.data.contract_length.preselected_contract_length;
-          this.dropdown = response.data.contract_length.contract_length_options;
-          this.boxes = response.data.items;
-          this.tvImg = response.data.assets.tv_category;
-          this.netImg = response.data.assets.net_category;
+          //status: success
+          //Setovanje podataka u data varijable
+          this.loading = true; // ukoliko je proslo sve kako treba, ucitace se cela stranica
+          this.recommended = response.data.promo_text; // text preporucujemo
+          this.selectOption = response.data.contract_length.preselected_contract_length; // Na osnovu ove varijable (selectOption) se zasniva celokupna promena ugovorne obeveze
+          this.dropdown = response.data.contract_length.contract_length_options; // sve opcije za dropdown
+          this.boxes = response.data.items; // sve ugovorne obaveze
+          this.tvImg = response.data.assets.tv_category; //slika za tv sekciju
+          this.netImg = response.data.assets.net_category; // slika za net sekciju
+
+          //Nakon dobijanja podataka iz json-a neki od njih su u sebi sadrzali p tagove koje je potrebno ukloniti
           for (i = 0; i < response.data.items.length; i++) {
             var promocions = response.data.items[i].promotions;
             for (var j = 0; j < promocions.length; j++) {
-              var value = promocions[j].promo_text.slice(3, promocions[j].promo_text.length - 4);
-              promocions[j].promo_text = value;
+              //promo tekst koji treba da stoji uz sliku
+              var value = promocions[j].promo_text.slice(3, promocions[j].promo_text.length - 4); //brisanje p taga i smestanje nove vrednosti u pomocni varijablu
+              promocions[j].promo_text = value; // promo tekstu je dodeljena vrednost iz pomocne varijable
             }
 
             var price = response.data.items[i].prices;
+            //Uklanjanje p taga iz promo teksta koji se odnosi na ugovornu obazevu od 24
             var oldPromoText = price['old_price_promo_text'].slice(3, price['old_price_promo_text'].length - 4);
             price['old_price_promo_text'] = oldPromoText;
 
+            //Stara cena sadrzi cetiri decimale koje su uklonjene Math.round f-jom
             price['old_price_recurring']['Ugovor 24 meseca'] = (Math.round(price['old_price_recurring']['Ugovor 24 meseca']));
             price['old_price_recurring']['Ugovor 12 meseci'] = (Math.round(price['old_price_recurring']['Ugovor 12 meseci']));
             price['old_price_recurring']['Bez ugovorne obaveze'] = (Math.round(price['old_price_recurring']['Bez ugovorne obaveze']));
-
+            //Redovna cena sadrzi cetiri decimale koje su uklonjene Math.round f-jom
             price['price_recurring']['Ugovor 24 meseca'] = (Math.round(price['price_recurring']['Ugovor 24 meseca']));
             price['price_recurring']['Ugovor 12 meseci'] = (Math.round(price['price_recurring']['Ugovor 12 meseci']));
             price['price_recurring']['Bez ugovorne obaveze'] = (Math.round(price['price_recurring']['Bez ugovorne obaveze']));
@@ -141,6 +154,8 @@
 
         })
         .catch(error => {
+          //status: failed
+          // ukoliko nesto nije kako treba, stranica se nece ucitati
           this.loading = false;
         })
     }
